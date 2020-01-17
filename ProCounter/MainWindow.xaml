@@ -1,0 +1,40 @@
+﻿<Window x:Class="ProCounter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:convertors="clr-namespace:ProCounter.Converters"
+        mc:Ignorable="d"
+        Title="ProCounter" 
+        Height="{Binding Counter.WindowHeight}"
+        Width="{Binding Counter.WindowWidth}"
+        MaxHeight="{Binding Counter.WindowHeight}"
+        MaxWidth="{Binding Counter.WindowWidth}"
+        MinHeight="{Binding Counter.WindowHeight}"
+        MinWidth="{Binding Counter.WindowWidth}"
+        Closing="Window_Closed" 
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" 
+        ResizeMode="NoResize" WindowStartupLocation="Manual" ShowInTaskbar="False"
+         >
+    <Window.Resources>
+        <convertors:FontColorConverterToBrush x:Key="FontColorConverterToBrush" />
+        <convertors:DropShadowConverter x:Key="DropShadowConverter" />
+        <convertors:FontFamilyConverter x:Key="FontFamilyConverter"/>
+    </Window.Resources>
+    <Window.ContextMenu>
+        <ContextMenu>
+            <MenuItem x:Name="ContextMenuItem1" Header="Settings" Click="ContextMenuItem1_Click" ></MenuItem>
+            <MenuItem x:Name="ContextMenuItem2" Header="Exit" Click="ContextMenuItem2_Click"></MenuItem>
+        </ContextMenu>
+    </Window.ContextMenu>
+    <Grid Width="Auto" Height="Auto">
+        <Label
+               Content="{Binding Label}" 
+               VerticalAlignment="Center" FontSize="{Binding Counter.FontSize}" FontFamily="{Binding Counter.FontFamily, Converter={StaticResource FontFamilyConverter}}" 
+               Foreground="{Binding Counter.FontColor, Converter={StaticResource FontColorConverterToBrush}}">
+            <Label.Effect>
+                <DropShadowEffect Opacity="{Binding Counter.DropShadow, Converter={StaticResource DropShadowConverter}}"/>
+            </Label.Effect>
+        </Label>
+    </Grid>
+</Window>
