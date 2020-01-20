@@ -4,7 +4,7 @@ using System.Windows.Input;
 namespace ProCounter
 {
     public class Command : ICommand
-    {123
+    {
         private readonly Action<object> _executeMethod;
         private readonly Func<bool> _canExecuteMethod;
 

@@ -14,7 +14,7 @@
         MinWidth="{Binding Counter.WindowWidth}"
         Closing="Window_Closed" 
         WindowStyle="None" AllowsTransparency="True" Background="Transparent" 
-        ResizeMode="NoResize" WindowStartupLocation="Manual" ShowInTaskbar="False"
+        ResizeMode="NoResize" WindowStartupLocation="Manual" ShowInTaskbar="False" Loaded="Window_Loaded"
          >
     <Window.Resources>
         <convertors:FontColorConverterToBrush x:Key="FontColorConverterToBrush" />

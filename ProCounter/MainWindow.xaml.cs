@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 
 namespace ProCounter
 {
@@ -10,10 +12,19 @@ namespace ProCounter
     /// </summary>
     public partial class MainWindow : Window
     {
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        [DllImport("user32.dll")]
+        static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        private const int GWL_EX_STYLE = -20;
+        private const int WS_EX_APPWINDOW = 0x00040000, WS_EX_TOOLWINDOW = 0x00000080;
         private OptionsWindow _optionsWindow;
         public MainWindow()
         {
+   
             InitializeComponent();
+            this.Hide();
+            this.Show();
             DataContext = new CounterViewModel();
             Graphics graphics = Graphics.FromImage(new Bitmap(1, 1));
             var vmContext = (CounterViewModel)DataContext;
@@ -91,6 +102,13 @@ namespace ProCounter
                 DragMove();
                 ((CounterViewModel)DataContext).UnsavedChanges = true;
             }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var helper = new WindowInteropHelper(this).Handle;
+            //Performing some magic to hide the form from Alt+Tab
+            SetWindowLong(helper, GWL_EX_STYLE, (GetWindowLong(helper, GWL_EX_STYLE) | WS_EX_TOOLWINDOW) & ~WS_EX_APPWINDOW);
         }
     }
 }
